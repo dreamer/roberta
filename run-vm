@@ -1,0 +1,132 @@
+#!/usr/bin/python3
+
+# pylint: disable=invalid-name
+# pylint: disable=missing-docstring
+
+# Copyright (C) 2019  Patryk Obara <patryk.obara@gmail.com>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+import argparse
+import os
+import subprocess
+import sys
+
+import fakescripteval
+import toolbox
+import version
+
+from log import log, log_err, log_warn
+from settings import SETTINGS as settings
+
+STEAM_APP_ID = os.environ.get('SteamAppId', '0')
+
+
+def setup_bundle(distdir):
+    extend_env = (
+        ('PATH', os.path.join(distdir, 'bin')),
+        ('LD_LIBRARY_PATH', os.path.join(distdir, 'lib')),
+    )
+    for env_var, path in extend_env:
+        if os.path.isdir(path):
+            sys_path_str = os.getenv(env_var, None)
+            sys_path = sys_path_str.split(os.pathsep) if sys_path_str else []
+            if path not in sys_path:
+                log('adding {} to {}'.format(path, env_var))
+                sys_path.append(path)
+                os.environ[env_var] = os.pathsep.join(sys_path)
+
+
+def run_scummvm():
+    cmd = settings.get_scummvm_cmd()
+    log('working dir: "{}"'.format(os.getcwd()))
+    install_dir = toolbox.guess_game_install_dir()
+    if install_dir:
+        cmd = [x.replace('%install_dir%', install_dir) for x in cmd]
+    else:
+        log_warn('unrecognized installation directory')
+
+    # install_dir has some escaped characters (on purpose)
+    # TODO: split escaping into a separate function
+    install_dir = install_dir.replace('\\ ', ' ')
+
+    with toolbox.PidFile(fakescripteval.PID_FILE):
+        try:
+            run_args = ['--fullscreen', '-p', install_dir, '--auto-detect']
+            log(cmd + run_args)
+            sys.stderr.flush()
+            subprocess.call(cmd + run_args)
+
+        except FileNotFoundError as err:
+            log_err(err)
+
+
+def run(cmd_line, wait=False):
+    log('working dir: "{}"'.format(os.getcwd()))
+    log('original command:', cmd_line)
+
+    if wait:
+        fakescripteval.wait_for_previous_process()
+
+    exe_path, exe = os.path.split(cmd_line[0]) if cmd_line else (None, '')
+
+    if exe == 'iscriptevaluator.exe':
+        status = fakescripteval.iscriptevaluator(cmd_line)
+        sys.exit(status)
+
+    # we don't want to detect hardware until we're sure we are starting
+    # the actual game:
+    settings.setup()
+
+    run_file(exe_path, exe, cmd_line)
+
+
+def run_file(path, exe, cmd_line):
+    log(path)
+    log(exe)
+    log(cmd_line)
+    run_scummvm()
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--get-native-path', action='store_true')
+    group.add_argument('--get-compat-path', action='store_true')
+    group.add_argument('--wait-before-run', action='store_true')
+    group.add_argument('--version', action='store_true')
+    args, run_cmd_line = parser.parse_known_args()
+
+    setup_bundle(distdir=settings.distdir)
+
+    if len(sys.argv) == 1:
+        parser.print_help()
+        sys.exit(0)
+
+    if args.version:
+        print('Roberta version {0}'.format(version.VERSION[1:]))
+        sys.exit(0)
+
+    if args.get_native_path:
+        sys.exit(1)
+
+    if args.get_compat_path:
+        sys.exit(1)
+
+    run(run_cmd_line, wait=args.wait_before_run)
+
+
+if __name__ == "__main__":
+    main()

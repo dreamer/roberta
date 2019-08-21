@@ -1,0 +1,12 @@
+compatibilitytool.vdf
+version.py
+*.swo
+*.swn
+*.swp
+*.pyc
+.coverage
+Pipfile
+Pipfile.lock
+roberta.tar.xz
+roberta.zip
+TODO.md

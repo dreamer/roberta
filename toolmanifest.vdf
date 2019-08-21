@@ -1,0 +1,7 @@
+"manifest"
+{
+  "commandline" "/run-vm"
+  "commandline_waitforexitandrun" "/run-vm --wait-before-run"
+  "commandline_getnativepath" "/run-vm --get-native-path"
+  "commandline_getcompatpath" "/run-vm --get-compat-path"
+}
