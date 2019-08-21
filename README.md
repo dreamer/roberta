@@ -2,7 +2,8 @@
 
 [![Luxtorpeda project Discord](https://img.shields.io/discord/514567252864008206.svg?label=discord)](https://discord.gg/8mFhUPX)
 
-Steam Play compatibility tool to run adventure games using native Linux ScummVM
+Steam Play compatibility tool to run adventure games using native Linux
+[ScummVM](https://www.scummvm.org/)
 
 This is a sister project of
 [Luxtorpeda](https://github.com/dreamer/luxtorpeda) and
@@ -23,15 +24,15 @@ You will need Python (>= 3.5), ScummVM (>= 2.0.0) and inotify-tools.
 
 #### OpenSUSE
 
-    $ sudo zypper install ??? inotify-tools
+    $ sudo zypper install scummvm inotify-tools
 
 #### Debian, Ubuntu et consortes
 
-    $ sudo apt install ??? inotify-tools
+    $ sudo apt install scummvm inotify-tools
 
 #### Arch, Manjaro
 
-    $ sudo pacman -S ??? inotify-tools
+    $ sudo pacman -S scummvm inotify-tools
 
 
 ## Installation (from source)
@@ -60,4 +61,5 @@ TODO
 
 ## Known issues
 
-TODO
+- Switching game language in Steam is not supported yet.
+- Some games hang after triggering Steam overlay.
