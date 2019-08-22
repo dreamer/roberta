@@ -54,7 +54,7 @@ class Settings():
         self.store.add_section('confgen')
         self.store.add_section('scummvm')
         self.store.read(conf or SETTINGS_FILE)
-        self.fullresolution = 'desktop'
+        self.fullresolution = None
         self.finalized = False
         self.distdir = os.path.dirname(os.path.abspath(__file__))
 
@@ -98,7 +98,7 @@ class Settings():
         os.putenv('SDL_VIDEO_FULLSCREEN_DISPLAY', screen)  # SDL >= 1.2.14
         os.putenv('SDL_VIDEO_FULLSCREEN_HEAD', screen)  # SDL >= 1.2.10
         info = all_screens[screen]
-        self.fullresolution = '{}x{}'.format(info.width, info.height)
+        self.fullresolution = (info.width, info.height)
 
     def __get_screen_number__(self):
         tokens = self.get_scummvm_fullscreenmode().split()

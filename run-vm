@@ -65,9 +65,16 @@ def adjust_scummvm_config(config_file):
 
 
 def adjust_scummvm_env_config(config_file):
-    # TODO: inject current screen resolution to work around
-    #       fullscreen issues
     assert config_file
+    resolution = settings.get_scummvm_fullresolution()
+    if resolution:
+        width, height = resolution
+        cfg = configparser.ConfigParser(delimiters='=')
+        cfg.read(config_file)
+        cfg['scummvm']['last_fullscreen_mode_width'] = str(width)
+        cfg['scummvm']['last_fullscreen_mode_height'] = str(height)
+        with open(config_file, 'w') as output:
+            cfg.write(output)
 
 
 def count_detected_games(config_file):
