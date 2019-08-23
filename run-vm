@@ -59,7 +59,10 @@ def zenity_err(msg):
 
 def detect_games(scummvm_cmd, path, config_file):
     detect_args = ['-p', path, '-c', config_file, '--recursive', '--add']
-    subprocess.call(scummvm_cmd + detect_args)
+    err = subprocess.call(scummvm_cmd + detect_args)
+    if err:
+        zenity_err('ScummVM exited with error code {}'.format(err))
+        sys.exit(1)
 
 
 def adjust_scummvm_config(config_file):
