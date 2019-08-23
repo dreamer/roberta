@@ -58,7 +58,7 @@ TODO
 
 ## Development
 
-TODO
+Read all about it in the [contributing guide](https://github.com/dreamer/roberta/blob/master/CONTRIBUTING.md) :)
 
 
 ## Known issues
