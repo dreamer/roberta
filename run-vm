@@ -50,6 +50,13 @@ def setup_bundle(distdir):
                 os.environ[env_var] = os.pathsep.join(sys_path)
 
 
+def zenity_err(msg):
+    steam_zenity = os.environ.get('STEAM_ZENITY', '/usr/bin/zenity')
+    cmd = [steam_zenity, '--error', '--no-wrap', '--title=Roberta Error']
+    log_err(msg)
+    subprocess.call(cmd + ['--text={}'.format(msg)])
+
+
 def detect_games(scummvm_cmd, path, config_file):
     detect_args = ['-p', path, '-c', config_file, '--recursive', '--add']
     subprocess.call(scummvm_cmd + detect_args)
@@ -113,7 +120,7 @@ def run_scummvm():
             adjust_scummvm_env_config(scummvm_conf)
 
             if count_detected_games(scummvm_conf) == 0:
-                log_err('ScummVM detected no supported games')
+                zenity_err('This game is not supported by ScummVM.')
                 os.remove(scummvm_conf)
                 sys.exit(1)
 
