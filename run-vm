@@ -119,7 +119,7 @@ def run_scummvm():
 
     with toolbox.PidFile(fakescripteval.PID_FILE):
         try:
-            scummvm_conf = 'lux.ini'
+            scummvm_conf = 'roberta_scummvm.ini'
 
             if settings.get_confgen_force():
                 toolbox.rm_force(scummvm_conf)
