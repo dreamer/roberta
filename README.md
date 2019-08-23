@@ -11,6 +11,8 @@ This is a sister project of
 [Luxtorpeda](https://github.com/dreamer/luxtorpeda) and
 [Boxtron](https://github.com/dreamer/boxtron).
 
+![roberta](https://user-images.githubusercontent.com/3967/63626407-3f41f700-c603-11e9-8aff-22c6ab308390.png)
+
 Official mirrors:
 [GitHub](https://github.com/dreamer/roberta),
 [GitLab](https://gitlab.com/luxtorpeda/roberta).
@@ -87,3 +89,4 @@ Read all about it in the
 ## Known issues
 
 - Some games hang after triggering Steam overlay in ScummVM 2.0.
+- As of August 2019, Arch AUR package for ScummVM does not work correctly.
