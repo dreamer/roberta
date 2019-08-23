@@ -1,5 +1,6 @@
 # Roberta
 
+[![Build Status](https://travis-ci.com/dreamer/roberta.svg?branch=master)](https://travis-ci.com/dreamer/roberta)
 [![Luxtorpeda project Discord](https://img.shields.io/discord/514567252864008206.svg?label=discord)](https://discord.gg/8mFhUPX)
 
 Steam Play compatibility tool to run adventure games using native Linux

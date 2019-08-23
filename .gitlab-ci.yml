@@ -1,0 +1,47 @@
+image: python:3.5-jessie
+
+variables:
+  GIT_STRATEGY: fetch
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -y -qq myspell-en-gb enchant shellcheck python3-pip zip
+  - pip3 -q install -r requirements.txt
+  - python --version
+  - python3 --version
+  - shellcheck --version
+  - pylint --version
+  - pycodestyle --version
+
+stages:
+  - analyse
+  - test
+  - format
+  - package
+
+Run Linters:
+  stage: analyse
+  script: make lint
+
+Unit Tests:
+  stage: test
+  script: make test
+
+Unit Tests Coverage:
+  stage: test
+  script: make coverage
+
+Check Formatting:
+  stage: format
+  script: make check-formatting
+
+Create Packages:
+  stage: package
+  script:
+  - make roberta.tar.xz
+  - make roberta.zip
+  artifacts:
+    paths:
+    - roberta.tar.xz
+    - roberta.zip
+    expire_in: 1 week
