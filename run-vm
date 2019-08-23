@@ -65,6 +65,9 @@ def detect_games(scummvm_cmd, path, config_file):
 def adjust_scummvm_config(config_file):
     cfg = configparser.ConfigParser(delimiters='=')
     cfg.read(config_file)
+    if not cfg.has_section('scummvm'):
+        log_warn('config file is missing scummvm section')
+        return
     cfg['scummvm']['gfx_mode'] = 'opengl'
     cfg['scummvm']['fullscreen'] = 'true'
     with open(config_file, 'w') as output:
@@ -74,14 +77,18 @@ def adjust_scummvm_config(config_file):
 def adjust_scummvm_env_config(config_file):
     assert config_file
     resolution = settings.get_scummvm_fullresolution()
-    if resolution:
-        width, height = resolution
-        cfg = configparser.ConfigParser(delimiters='=')
-        cfg.read(config_file)
-        cfg['scummvm']['last_fullscreen_mode_width'] = str(width)
-        cfg['scummvm']['last_fullscreen_mode_height'] = str(height)
-        with open(config_file, 'w') as output:
-            cfg.write(output)
+    if resolution is None:
+        return
+    width, height = resolution
+    cfg = configparser.ConfigParser(delimiters='=')
+    cfg.read(config_file)
+    if not cfg.has_section('scummvm'):
+        log_warn('config file is missing scummvm section')
+        return
+    cfg['scummvm']['last_fullscreen_mode_width'] = str(width)
+    cfg['scummvm']['last_fullscreen_mode_height'] = str(height)
+    with open(config_file, 'w') as output:
+        cfg.write(output)
 
 
 def count_detected_games(config_file):
