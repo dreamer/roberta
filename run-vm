@@ -71,8 +71,10 @@ def adjust_scummvm_config(config_file):
     if not cfg.has_section('scummvm'):
         log_warn('config file is missing scummvm section')
         return
+    resolution = settings.get_scummvm_fullresolution()
     cfg['scummvm']['gfx_mode'] = 'opengl'
-    cfg['scummvm']['fullscreen'] = 'true'
+    if resolution:
+        cfg['scummvm']['fullscreen'] = 'true'
     with open(config_file, 'w') as output:
         cfg.write(output)
 

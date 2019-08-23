@@ -37,9 +37,10 @@ force = {confgen_force}
 #   Default is 'screen 0', which is your primary display.
 #   You can override this selection per-game with LUX_USE_SCREEN environment
 #   variable, e.g: 'LUX_USE_SCREEN=2 %command%'
-# - desktop:
-#   The whole desktop area will be used (all displays) with the game centred,
-#   the native resolution of your displays will be preserved.
+# - default:
+#   Roberta will not attempt to affect the default ScummVM behaviour.
+#   ScummVM uses windowed mode by default; it can be changed in ScummVM
+#   options per-game.
 fullscreenmode = {fullscreen_mode}
 
 # Uncomment following line to specify a different ScummVM command:
@@ -70,11 +71,12 @@ class Settings():
 
     def __setup_fullscreen__(self):
         user_choice = self.get_scummvm_fullscreenmode()
+
         env_override = 'LUX_USE_SCREEN' in os.environ or \
                        'SDL_VIDEO_FULLSCREEN_DISPLAY' in os.environ or \
                        'SDL_VIDEO_FULLSCREEN_HEAD' in os.environ
 
-        if user_choice == 'desktop' and not env_override:
+        if user_choice == 'default' and not env_override:
             return
 
         screen = self.__get_screen_number__()
@@ -91,7 +93,7 @@ class Settings():
                 screen = '0'
                 log("using '" + screen + "' instead")
             else:
-                log("using desktop as screen instead")
+                log("using ScummVM default fullscreen mode")
                 return
 
         log("selected screen '{}'".format(screen))
