@@ -63,3 +63,11 @@ class PidFile:
             os.remove(self.file_name)
         except FileNotFoundError:
             pass
+
+
+def rm_force(path):
+    """Forcefully remove the file."""
+    try:
+        os.remove(path)
+    except FileNotFoundError:
+        pass

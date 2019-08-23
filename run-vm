@@ -102,6 +102,9 @@ def run_scummvm():
         try:
             scummvm_conf = 'lux.ini'
 
+            if settings.get_confgen_force():
+                toolbox.rm_force(scummvm_conf)
+
             if not os.path.isfile(scummvm_conf):
                 detect_games(cmd, install_dir, scummvm_conf)
                 adjust_scummvm_config(scummvm_conf)
