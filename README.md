@@ -33,6 +33,10 @@ You will need Python (>= 3.5), ScummVM (>= 2.0.0) and inotify-tools.
 #### Debian, Ubuntu et consortes
 
     $ sudo apt install scummvm inotify-tools
+    
+#### NixOS
+
+    $ nix-env -f '<nixpkgs>' -iA scummvm inotify-tools
 
 #### Arch, Manjaro
 
