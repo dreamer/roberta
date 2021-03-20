@@ -3,7 +3,8 @@
 # pylint: disable=invalid-name
 # pylint: disable=missing-docstring
 
-# Copyright (C) 2019  Patryk Obara <patryk.obara@gmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Copyright (C) 2019-2021  Patryk Obara <patryk.obara@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -136,7 +137,15 @@ def run_scummvm():
                 os.remove(scummvm_conf)
                 sys.exit(1)
 
-            subprocess.call(cmd + ['-p', install_dir, '-c', scummvm_conf])
+            game_arg = os.environ.get('LUX_SCUMMVM_GAME', None)
+            if game_arg:
+                # In this case combining -p is unreliable with passing game arg;
+                # ScummVM might hang. However, at this point all game
+                # directories should be detected and stored in scummvm_conf
+                # file, so we don't need -p any more.
+                subprocess.call(cmd + ['-c', scummvm_conf, game_arg])
+            else:
+                subprocess.call(cmd + ['-p', install_dir, '-c', scummvm_conf])
 
         except FileNotFoundError as err:
             log_err(err)
