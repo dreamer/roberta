@@ -379,7 +379,7 @@ max-spelling-suggestions=4
 spelling-dict=en_GB
 
 # List of comma separated words that should not be checked.
-spelling-ignore-words=activision, alsa, autoexec,
+spelling-ignore-words=activision, alsa, arg, autoexec,
                       bool, boxtron,
                       casio, chdir, cmd, com, conf, ctypes,
                       deathkings, dict, dir, dosbox, dx,

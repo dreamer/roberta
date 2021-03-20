@@ -76,12 +76,23 @@ Settings for Roberta can be found in `~/.config/roberta.conf` (or wherever
 [`XDG_CONFIG_HOME`](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html)
 points to).
 
-Additionally, per-game settings can be changed through variables set in Steam client. For example, to force game to use your **secondary** screen, right-click your game in Steam Library, select *Properties&nbsp;→&nbsp;Set&nbsp;Launch&nbsp;Options…* and set: `LUX_USE_SCREEN=1 %command%`.
+Additionally, per-game settings can be changed through variables set in the
+Steam client.  For example, to force game to use your **secondary** screen,
+right-click your game in Steam Library, select
+*Properties&nbsp;&nbsp;General&nbsp;→&nbsp;Launch&nbsp;Options*
+and set: `LUX_USE_SCREEN=1 %command%`.
 
-| Name              | Values  | Description
-|:---               |:---     |:---
-| `LUX_SCUMMVM_CMD` | command | Use this command to run the game. Overrides value in `scummvm.cmd` setting.
-| `LUX_USE_SCREEN`  | number  | Set to the number of the screen, that you want the game to use. Overrides `scummvm.fullscreenmode` setting.
+You can use `LUX_SCUMMVM_GAME=<game-identifier>` to bypass the ScummVM
+launcher menu, and start the game right away, but it will hide important
+ScummVM launcher options.  To open launcher menu press **Ctrl+F5** and
+select **Return to Launcher**.  The *game-identifier* value is one of
+section names in `roberta_scummvm.ini` file in the game installation directory.
+
+| Name               | Values  | Description
+|:---                |:---     |:---
+| `LUX_SCUMMVM_GAME` | string  | Set to the game identifier to run the specific game in a collection, bypassing the ScummVM launcher menu.
+| `LUX_SCUMMVM_CMD`  | command | Use this command to run the game. Overrides value in `scummvm.cmd` setting.
+| `LUX_USE_SCREEN`   | number  | Set to the number of the screen, that you want the game to use. Overrides `scummvm.fullscreenmode` setting.
 
 
 ## Development
