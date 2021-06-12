@@ -109,10 +109,11 @@ def run_scummvm():
     log('working dir: "{}"'.format(os.getcwd()))
     cmd = settings.get_scummvm_cmd()
     install_dir = toolbox.guess_game_install_dir()
-    if install_dir:
-        cmd = [x.replace('%install_dir%', install_dir) for x in cmd]
-    else:
+    if not install_dir:
         log_warn('unrecognized installation directory')
+        install_dir = os.getcwd()
+
+    cmd = [x.replace('%install_dir%', install_dir) for x in cmd]
 
     # install_dir has some escaped characters (on purpose)
     # TODO: split escaping into a separate function
